@@ -70,13 +70,13 @@ export async function setupRepository(repoFullName) {
 /**
  * Creates a brand new repository under the user's account with auto-init.
  */
-export async function createRepository(repoName, isPrivate = false) {
+export async function createRepository(repoName) {
     const newRepo = await githubFetch('/user/repos', {
         method: 'POST',
         body: JSON.stringify({
             name: repoName.trim(),
             description: 'Collection of LeetCode solutions synced automatically via LeetGit',
-            private: isPrivate,
+            private: false,
             auto_init: true // Automatically creates initial commit with README.md
         })
     });

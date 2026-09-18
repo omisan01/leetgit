@@ -46,7 +46,7 @@ git clone https://github.com/omisan01/leetgit.git
 Once authenticated, configure your destination repository:
 
 - **Create a new repository (Recommended):**
-  - Keep **"Create as new private repository"** checked.
+  - Keep **"Create as new public repository"** checked.
   - Enter your preferred repository name (e.g., `leetcode-solutions`).
   - Click **Save & Link Repository**. LeetGit will create the repository under your account, initialize the default branch, and link it.
 - **Link an existing repository:**
