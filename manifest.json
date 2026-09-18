@@ -1,0 +1,54 @@
+{
+    "manifest_version": 3,
+    "name": "LeetGit - LeetCode to GitHub Sync",
+    "version": "1.0.0",
+    "description": "Automatically sync accepted LeetCode submissions to GitHub.",
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_title": "LeetGit",
+        "default_icon": "assets/icons/icon.png"
+    },
+    "background": {
+        "service_worker": "scripts/background.js",
+        "type": "module"
+    },
+    "permissions": [
+        "storage",
+        "notifications"
+    ],
+    "host_permissions": [
+        "https://leetcode.com/*",
+        "https://api.github.com/*",
+        "https://github.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://github.com/login/device*"
+            ],
+            "js": [
+                "scripts/github-autofill.js"
+            ],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": [
+                "https://leetcode.com/problems/*"
+            ],
+            "js": [
+                "scripts/content.js"
+            ],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": [
+                "https://leetcode.com/problems/*"
+            ],
+            "js": [
+                "scripts/leetcode-interceptor.js"
+            ],
+            "run_at": "document_start",
+            "world": "MAIN"
+        }
+    ]
+}

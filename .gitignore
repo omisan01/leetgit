@@ -1,0 +1,13 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Chrome extension builds
+*.zip
+*.pem
+dist/
+
+# Editor files
+.vscode/
+.idea/
+*.swp

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --card-bg: #f8fafc;
+            --text: #0f172a;
+            --subtext: #64748b;
+            --border: #e2e8f0;
+            --primary: #24292e;
+            --primary-hover: #1b1f23;
+            --accent: #2563eb;
+            --success: #16a34a;
+            --danger: #dc2626;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            width: 320px;
+            padding: 16px;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            box-sizing: border-box;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            color: var(--subtext);
+            border-radius: 4px;
+        }
+
+        .btn-icon:hover {
+            color: var(--text);
+            background: var(--card-bg);
+        }
+
+        /* Forms & Inputs */
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--subtext);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        button.btn {
+            width: 100%;
+            padding: 9px;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        button.btn:hover {
+            background: var(--primary-hover);
+        }
+
+        button.btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button.btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        button.btn-outline:hover {
+            background: var(--card-bg);
+        }
+
+        button.danger {
+            background: var(--danger);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+
+        /* Status indicator */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--success);
+            margin-bottom: 4px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+
+        .repo-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .repo-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Messaging */
+        .msg {
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .msg-error {
+            color: var(--danger);
+        }
+
+        .msg-info {
+            color: var(--subtext);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. LOGIN VIEW -->
+    <div id="view-login">
+        <header>
+            <h3>LeetGit</h3>
+        </header>
+        <p style="font-size: 13px; color: var(--subtext); margin-top: 0;">Sync your LeetCode solves directly to GitHub
+            automatically.</p>
+        <button id="login-btn" class="btn">Connect with GitHub</button>
+        <div id="auth-flow" class="hidden" style="margin-top: 12px; text-align: center;">
+            <p id="poll-status" class="msg msg-info">Authorizing...</p>
+        </div>
+    </div>
+
+    <!-- 2. REPO SETUP VIEW -->
+    <div id="view-repo-setup" class="hidden">
+        <header>
+            <h3>Link Repository</h3>
+        </header>
+        <div class="card">
+            <label for="repo-name-input">Repository Name</label>
+            <input type="text" id="repo-name-input" placeholder="leetcode-solutions">
+            <label class="checkbox-label">
+                <input type="checkbox" id="create-new-toggle" checked>
+                Create as new private repository
+            </label>
+            <button id="link-repo-btn" class="btn">Save & Link Repository</button>
+            <div id="repo-error" class="msg msg-error hidden"></div>
+        </div>
+    </div>
+
+    <!-- 3. DASHBOARD VIEW -->
+    <div id="view-dashboard" class="hidden">
+        <header>
+            <div class="status-badge">
+                <span class="status-dot"></span> Synced & Active
+            </div>
+            <button id="settings-btn" class="btn-icon" title="Settings">⚙️</button>
+        </header>
+
+        <div class="card" style="margin-bottom: 10px;">
+            <div style="font-size: 11px; color: var(--subtext); margin-bottom: 2px;">DESTINATION REPO</div>
+            <a id="dashboard-repo-link" class="repo-link" target="_blank" href="#">loading...</a>
+        </div>
+
+        <!-- SYNC COUNTER STAT CARD -->
+        <div class="card"
+            style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="font-size: 11px; color: var(--subtext);">SYNC PROGRESS</div>
+                <div id="progress-text" style="font-size: 14px; font-weight: 700; margin-top: 2px;">Checking...</div>
+            </div>
+            <div id="progress-badge"
+                style="font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 12px; background: #e2e8f0; color: #475569;">
+                --%
+            </div>
+        </div>
+
+        <button id="bulk-sync-btn" class="btn">Bulk Sync All Past Solves</button>
+        <div id="sync-status" class="msg msg-info" style="text-align: center; margin-top: 8px;"></div>
+    </div>
+
+    <!-- 4. SETTINGS VIEW -->
+    <div id="view-settings" class="hidden">
+        <header>
+            <h3>Settings</h3>
+            <button id="settings-back-btn" class="btn-icon">✕</button>
+        </header>
+
+        <div class="card user-profile">
+            <img id="settings-avatar" class="avatar" src="" alt="Avatar">
+            <div>
+                <strong id="settings-login" style="font-size: 13px;"></strong>
+                <div style="font-size: 11px; color: var(--subtext);">GitHub Account</div>
+            </div>
+        </div>
+
+        <button id="change-repo-btn" class="btn btn-outline" style="margin-bottom: 8px;">Change Repository</button>
+        <button id="logout-btn" class="btn danger">Disconnect GitHub</button>
+    </div>
+
+    <script type="module" src="popup.js"></script>
+</body>
+
+</html>
