@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (shouldCreate) {
                 // Strip out owner if typed
                 const repoOnly = rawInput.includes('/') ? rawInput.split('/')[1] : rawInput;
-                targetRepo = await createRepository(repoOnly, true);
+                targetRepo = await createRepository(repoOnly, false);
             } else {
                 // Form "owner/repo" if only repo name was supplied
                 const fullPath = rawInput.includes('/') ? rawInput : `${github_user.login}/${rawInput}`;

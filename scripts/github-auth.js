@@ -16,7 +16,7 @@ export async function initiateDeviceFlow() {
         },
         body: JSON.stringify({
             client_id: CLIENT_ID,
-            scope: 'repo'
+            scope: 'public_repo'
         })
     });
 
