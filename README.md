@@ -21,7 +21,7 @@ LeetGit combines real-time submission tracking with an interruption-proof histor
 
 1. Clone or download this repository:
 ```bash
-git clone https://github.com/your-username/leetgit.git
+git clone https://github.com/omisan01/leetgit.git
 ```
 2. Open Google Chrome and go to `chrome://extensions/`.
 3. Enable **Developer mode** using the toggle in the top-right corner.
