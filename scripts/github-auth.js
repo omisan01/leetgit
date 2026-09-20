@@ -1,4 +1,4 @@
-// Replace with your GitHub OAuth App's Client ID
+//GitHub OAuth App's Client ID
 export const CLIENT_ID = 'Ov23liWBPQy8PJHOvTPQ';
 
 const GITHUB_DEVICE_CODE_URL = 'https://github.com/login/device/code';

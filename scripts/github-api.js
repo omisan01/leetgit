@@ -22,6 +22,13 @@ async function githubFetch(endpoint, options = {}) {
         throw error;
     }
 
+    // Handle expired / revoked token
+    if (response.status === 401) {
+        await chrome.storage.local.remove(['github_token', 'user_info']);
+        await chrome.storage.local.set({ auth_state: { status: 'disconnected' } });
+        throw new Error('GitHub session expired. Please reconnect in the extension popup.');
+    }
+
     return data;
 }
 
